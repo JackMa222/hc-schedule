@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <title>2024 Holiday Club</title>
+</head>
+
+<body class="text-bg-dark">
+<script>
+    const events = [
+        { timestamp: '08:30:00', title: 'Team Devotions'},
+        { timestamp: '09:15:00', title: 'Registration'},
+        { timestamp: '09:30:00', title: 'Session'},
+        { timestamp: '09:55:00', title: 'Group Time 1'},
+        { timestamp: '10:20:00', title: 'Group Time 2'},
+        { timestamp: '10:45:00', title: 'Group Time 3'},
+        { timestamp: '11:10:00', title: 'Morning Tea'},
+        { timestamp: '11:30:00', title: 'Group Time 4'},
+        { timestamp: '11:55:00', title: 'Group Time 5'},
+        { timestamp: '12:20:00', title: 'Group Time 6'},
+        { timestamp: '12:45:00', title: 'Session'},
+        { timestamp: '13:00:00', title: 'Finish & Drop Off'},
+        { timestamp: '13:15:00', title: 'Debreif/Meeting/Pack-up'},
+        { timestamp: '17:00:00', title: 'Family Night'},
+        { timestamp: '23:59:59', title: 'Midnight'},
+    ];
+
+    function convertTimestamp(timestamp) {
+        parts = timestamp.split(':').map(Number);
+        let totalSeconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+    
+        return totalSeconds;
+    }
+
+    function convertSeconds(secs) {
+        console.log(secs);
+        hours = Math.floor(secs/3600);
+        console.log(hours);
+        minutes = Math.floor((secs % 3600) / 60);
+        remainingSeconds = secs % 60;
+
+        if (hours < 10) {
+            hours = '0' + hours;
+        }
+        if (minutes < 10) {
+            minutes = '0' + minutes;
+        }
+        if (remainingSeconds < 10) {
+            remainingSeconds = '0' + remainingSeconds;
+        }
+
+        return hours + ':' + minutes + ':' + remainingSeconds;
+    }
+
+    function timeSince(timestamp) {
+        date = new Date();
+        str = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+        now = convertTimestamp(str);
+        console.log(now);
+        then = convertTimestamp(timestamp);
+        console.log(then);
+        elapsed = now - then;
+        return convertSeconds(elapsed);
+    }
+
+    function timeTill(timestamp) {
+        date = new Date();
+        str = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+        now = convertTimestamp(str);
+        console.log(now);
+        then = convertTimestamp(timestamp);
+        console.log(then);
+        elapsed = then - now;
+        return convertSeconds(elapsed);
+    }
+
+    // function to run every second
+
+    function updateData() {
+        date = new Date()
+        let time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+        // make time a propper timestamp
+        if (date.getHours() < 10) {
+            time = '0' + time
+        }
+        if (date.getMinutes() < 10) {
+            time = time.slice(0, 3) + '0' + time.slice(3)
+        }
+        if (date.getSeconds() < 10) {
+            time = time.slice(0, 6) + '0' + time.slice(6)
+        }
+
+        // compare time to events
+        // if time is between event.timestamp and the next event.timestamp, display the event.title
+        for (let i = 0; i < events.length; i++) {
+            if (time >= events[i].timestamp && time < events[i + 1].timestamp) {
+                // if i+1 goes over limit, reset to 0
+                document.getElementById('curr').textContent = events[i].title;
+                if (i + 1 >= events.length) {
+                    i = 0;
+                }
+                document.getElementById('next').textContent = "Next: " + events[i+1].title;
+                if (i - 1 < 0) {
+                    i = events.length;
+                }
+                document.getElementById('prev').textContent = "Previous: " + events[i-1].title;
+
+                document.getElementById('elap').textContent = timeSince(events[i].timestamp)
+                document.getElementById('down').textContent = timeTill(events[i+1].timestamp)
+                
+                //document.querySelector('.display-1').textContent = events[i].title
+                //document.querySelector('.display-2').textContent = events[i + 1].title
+                break
+            }
+        }
+
+        //console.log(time)
+    }
+
+    // run updateData every second
+    setInterval(updateData, 1000)
+
+</script>
+
+    <div class="d-flex justify-content-center">
+        <div class="w-90 bg-primary p-2 m-3 ps-5 pe-5 rounded text-center">
+            <h1 class="text-white">Holiday Club: 2024</h1>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center p-2">
+        <h1 id="curr" class="text-center fw-semibold text-wrap display-1">Current Activity</h1>
+    </div>
+
+    <div class="d-flex justify-content-center p-2 pb-0">
+        <h4 id="prev" class="bg-info p-2 m-2 rounded text-center">Previous: ...</h4>
+        <h4 id="next" class="bg-info p-2 m-2 rounded text-center">Next: ...</h4>
+    </div>
+    <div class="d-flex flex-column justify-content-center p-2">
+        <div class="p-2 m-2 rounded text-center">
+            <h4 id="elap" class="display-1">--:--:--</h4>
+            <h6>Elapsed session time</h6>
+        </div>
+        <div class="p-1 m-1 rounded text-center">
+            <h4 id="down" class="display-1">--:--:--</h4>
+            <h6>Time till next session</h6>
+        </div>
+    </div>
+</body>
+
+</html>
