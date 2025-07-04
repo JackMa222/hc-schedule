@@ -33,11 +33,9 @@
         { timestamp: '23:59:59', title: 'Tomorrow'},
     ];
 
-    function convertTimestamp(timestamp) {
-        parts = timestamp.split(':').map(Number);
-        let totalSeconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
-    
-        return totalSeconds;
+    function convertTimestamp(ts) {
+        const [h, m, s] = ts.split(':').map(Number);
+        return h * 3600 + m * 60 + s;
     }
 
     function convertSeconds(secs) {
@@ -84,6 +82,12 @@
 
     // function to run every second
 
+    const currentEl = document.getElementById('curr');
+    const nextEl = document.getElementById('next');
+    const prevEl = document.getElementById('prev');
+    const elapEl = document.getElementById('elap');
+    const downEl = document.getElementById('down');
+
     function updateData() {
         date = new Date()
         let time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
@@ -103,18 +107,18 @@
         for (let i = 0; i < events.length; i++) {
             if (time >= events[i].timestamp && time < events[i + 1].timestamp) {
                 // if i+1 goes over limit, reset to 0
-                document.getElementById('curr').textContent = events[i].title;
+                currentEl.textContent = events[i].title;
                 if (i + 1 >= events.length) {
                     i = 0;
                 }
-                document.getElementById('next').textContent = "Next: " + events[i+1].title;
+                nextEl.textContent = "Next: " + events[i+1].title;
                 if (i - 1 < 0) {
                     i = events.length;
                 }
-                document.getElementById('prev').textContent = "Previous: " + events[i-1].title;
+                prevEl.textContent = "Previous: " + events[i-1].title;
 
-                document.getElementById('elap').textContent = timeSince(events[i].timestamp)
-                document.getElementById('down').textContent = timeTill(events[i+1].timestamp)
+                elapEl.textContent = timeSince(events[i].timestamp)
+                downEl.getElementById('down').textContent = timeTill(events[i+1].timestamp)
                 
                 //document.querySelector('.display-1').textContent = events[i].title
                 //document.querySelector('.display-2').textContent = events[i + 1].title
