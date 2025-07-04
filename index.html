@@ -13,7 +13,31 @@
 </head>
 
 <body class="text-bg-dark">
-<script>
+    <div class="d-flex justify-content-center">
+        <div class="w-90 bg-warning p-2 m-3 ps-5 pe-5 rounded text-center">
+            <h1 class="text-black">Holiday Club: 2025</h1>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center p-2">
+        <h1 id="curr" class="text-center fw-semibold text-wrap display-1">Current Activity</h1>
+    </div>
+
+    <div class="d-flex justify-content-center p-2 pb-0">
+        <h4 id="prev" class="bg-black p-2 m-2 rounded text-center">Previous: ...</h4>
+        <h4 id="next" class="bg-black p-2 m-2 rounded text-center">Next: ...</h4>
+    </div>
+    <div class="d-flex flex-row justify-content-center p-2">
+        <div class="p-2 m-2 rounded text-center">
+            <h4 id="elap" class="display-1" style="min-width: 8ch">--:--:--</h4>
+            <h6>Elapsed session time</h6>
+        </div>
+        <div class="p-2 m-2 rounded text-center">
+            <h4 id="down" class="display-1" style="min-width: 8ch">--:--:--</h4>
+            <h6>Time till next session</h6>
+        </div>
+    </div>
+
+    <script>
     const events = [
         { timestamp: '00:00:00', title: 'Yesterday'},
         { timestamp: '08:30:00', title: 'Team Devotions'},
@@ -118,7 +142,7 @@
                 prevEl.textContent = "Previous: " + events[i-1].title;
 
                 elapEl.textContent = timeSince(events[i].timestamp)
-                downEl.getElementById('down').textContent = timeTill(events[i+1].timestamp)
+                downEl.textContent = timeTill(events[i+1].timestamp)
                 
                 //document.querySelector('.display-1').textContent = events[i].title
                 //document.querySelector('.display-2').textContent = events[i + 1].title
@@ -133,30 +157,6 @@
     setInterval(updateData, 1000)
 
 </script>
-
-    <div class="d-flex justify-content-center">
-        <div class="w-90 bg-warning p-2 m-3 ps-5 pe-5 rounded text-center">
-            <h1 class="text-black">Holiday Club: 2025</h1>
-        </div>
-    </div>
-    <div class="d-flex justify-content-center p-2">
-        <h1 id="curr" class="text-center fw-semibold text-wrap display-1">Current Activity</h1>
-    </div>
-
-    <div class="d-flex justify-content-center p-2 pb-0">
-        <h4 id="prev" class="bg-black p-2 m-2 rounded text-center">Previous: ...</h4>
-        <h4 id="next" class="bg-black p-2 m-2 rounded text-center">Next: ...</h4>
-    </div>
-    <div class="d-flex flex-column justify-content-center p-2">
-        <div class="p-2 m-2 rounded text-center">
-            <h4 id="elap" class="display-1">--:--:--</h4>
-            <h6>Elapsed session time</h6>
-        </div>
-        <div class="p-1 m-1 rounded text-center">
-            <h4 id="down" class="display-1">--:--:--</h4>
-            <h6>Time till next session</h6>
-        </div>
-    </div>
 </body>
 
 </html>
