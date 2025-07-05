@@ -39,27 +39,27 @@
     </div>
     <div id="group_activity" class="d-flex flex-column justify-content-center p-2">
         <div class="d-flex flex-row justify-content-center">
-            <div id="red_group" class="red p-2 m-2 rounded text-center">
-                <h2>Red: --</h2>
+            <div class="red p-2 m-2 rounded text-center">
+                <h2 id="red_group">Red: --</h2>
             </div>
-            <div id="blue_group" class="blue p-2 m-2 rounded text-center">
-                <h2>Blue: --</h2>
-            </div>
-        </div>
-        <div id="green_group" class="d-flex flex-row justify-content-center">
-            <div class="green p-2 m-2 rounded text-center">
-                <h2>Green: --</h2>
-            </div>
-            <div id="yellow_group" class="yellow p-2 m-2 rounded text-center text-black">
-                <h2>Yellow: --</h2>
+            <div class="blue p-2 m-2 rounded text-center">
+                <h2 id="blue_group" >Blue: --</h2>
             </div>
         </div>
         <div class="d-flex flex-row justify-content-center">
-            <div id="purple_group" class="purple p-2 m-2 rounded text-center">
-                <h2>Purple: --</h2>
+            <div class="green p-2 m-2 rounded text-center">
+                <h2 id="green_group">Green: --</h2>
             </div>
-            <div id="magenta_group" class="magenta p-2 m-2 rounded text-center">
-                <h2>Magenta: --</h2>
+            <div class="yellow p-2 m-2 rounded text-center text-black">
+                <h2 id="yellow_group" >Yellow: --</h2>
+            </div>
+        </div>
+        <div class="d-flex flex-row justify-content-center">
+            <div class="purple p-2 m-2 rounded text-center">
+                <h2 id="purple_group">Purple: --</h2>
+            </div>
+            <div class="magenta p-2 m-2 rounded text-center">
+                <h2 id="magenta_group" >Magenta: --</h2>
             </div>
         </div>
     </div>
@@ -196,7 +196,7 @@
                     redGroup.textContent = "Red: " + events[i].red;
                     blueGroup.textContent = "Blue: " + events[i].blue;
                     greenGroup.textContent = "Green: " + events[i].green;
-                    yellowGroup.textContent = "yellow: " + events[i].yellow;
+                    yellowGroup.textContent = "Yellow: " + events[i].yellow;
                     purpleGroup.textContent = "Purple: " + events[i].purple;
                     magentaGroup.textContent = "Magenta: " + events[i].magenta;
                 } else {
