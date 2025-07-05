@@ -1,0 +1,27 @@
+.red {
+    background-color: red;
+}
+
+.blue {
+    background-color: rgb(68, 158, 231);
+}
+
+.green {
+    background-color: green;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.purple {
+    background-color: purple;
+}
+
+.magenta {
+    background-color: magenta;
+}
+
+.hidden {
+    display: none !important;
+}
