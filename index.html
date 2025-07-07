@@ -36,10 +36,12 @@
             <h4 id="down" class="display-1" style="min-width: 8ch">--:--:--</h4>
             <h6>Time till next session</h6>
         </div>
+        <!--
         <div class="p-2 m-2 rounded text-center">
             <h4 id="timecurrent" class="display-1" style="min-width: 8ch">--:--:--</h4>
             <h6>Current Time</h6>
         </div>
+        -->
     </div>
     <div id="group_activity" class="d-flex flex-column justify-content-center p-2">
         <div class="d-flex flex-row justify-content-center">
@@ -176,7 +178,7 @@
             time = time.slice(0, 6) + '0' + time.slice(6)
         }
         
-        currentTime.textContent = time;
+        // currentTime.textContent = time;
 
         // compare time to events
         // if time is between event.timestamp and the next event.timestamp, display the event.title
