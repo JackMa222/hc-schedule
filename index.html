@@ -36,6 +36,10 @@
             <h4 id="down" class="display-1" style="min-width: 8ch">--:--:--</h4>
             <h6>Time till next session</h6>
         </div>
+        <div class="p-2 m-2 rounded text-center">
+            <h4 id="timecurrent" class="display-1" style="min-width: 8ch">--:--:--</h4>
+            <h6>Current Time</h6>
+        </div>
     </div>
     <div id="group_activity" class="d-flex flex-column justify-content-center p-2">
         <div class="d-flex flex-row justify-content-center">
@@ -66,8 +70,8 @@
 
     <script>
     const roomNames = {
-        learning1: "Learning Space 1",
-        learning2: "Learning Space 2",
+        learning1: "Teaching Time 1",
+        learning2: "Teaching Time 2",
         craft: "Craft",
         activity: "Activity Centre",
         games: "Games"
@@ -76,7 +80,7 @@
     const events = [
         { timestamp: '00:00:00', title: 'Yesterday'},
         { timestamp: '08:30:00', title: 'Team Devotions'},
-        { timestamp: '09:15:00', title: 'Registration'},
+        { timestamp: '09:00:00', title: 'Registration'},
         { timestamp: '09:30:00', title: 'Session'},
         { timestamp: '09:55:00', title: 'Group Time 1', red: roomNames.learning1, blue: roomNames.learning2, green: roomNames.craft, yellow: roomNames.activity, magenta: roomNames.games, purple: roomNames.games},
         { timestamp: '10:20:00', title: 'Group Time 2', red: roomNames.learning2, blue: roomNames.learning1, green: roomNames.activity, yellow: roomNames.craft, magenta: roomNames.games, purple: roomNames.games},
@@ -98,9 +102,9 @@
     }
 
     function convertSeconds(secs) {
-        console.log(secs);
+        // console.log(secs);
         hours = Math.floor(secs/3600);
-        console.log(hours);
+        // console.log(hours);
         minutes = Math.floor((secs % 3600) / 60);
         remainingSeconds = secs % 60;
 
@@ -121,9 +125,9 @@
         date = new Date();
         str = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
         now = convertTimestamp(str);
-        console.log(now);
+        //console.log(now);
         then = convertTimestamp(timestamp);
-        console.log(then);
+        //console.log(then);
         elapsed = now - then;
         return convertSeconds(elapsed);
     }
@@ -132,9 +136,9 @@
         date = new Date();
         str = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
         now = convertTimestamp(str);
-        console.log(now);
+        //console.log(now);
         then = convertTimestamp(timestamp);
-        console.log(then);
+        //console.log(then);
         elapsed = then - now;
         return convertSeconds(elapsed);
     }
@@ -156,6 +160,8 @@
 
     const activitySessions = document.getElementById('group_activity')
 
+    const currentTime = document.getElementById('timecurrent')
+
     function updateData() {
         date = new Date()
         let time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
@@ -169,6 +175,8 @@
         if (date.getSeconds() < 10) {
             time = time.slice(0, 6) + '0' + time.slice(6)
         }
+        
+        currentTime.textContent = time;
 
         // compare time to events
         // if time is between event.timestamp and the next event.timestamp, display the event.title
