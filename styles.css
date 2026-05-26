@@ -25,3 +25,13 @@
 .hidden {
     display: none !important;
 }
+
+.bg-2026 {
+    background-color: #121948;
+    color: #fff;
+}
+
+.title-bg-2026 {
+    background-color: #92d23c;
+    color: #000;
+}
