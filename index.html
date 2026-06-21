@@ -80,7 +80,6 @@
     }
 
     const events = [
-        { timestamp: '00:00:00', title: 'Yesterday'},
         { timestamp: '08:30:00', title: 'Team Devotions'},
         { timestamp: '09:00:00', title: 'Registration'},
         { timestamp: '09:30:00', title: 'Session'},
@@ -95,7 +94,6 @@
         { timestamp: '13:00:00', title: 'Finish & Drop Off'},
         { timestamp: '13:15:00', title: 'Debrief/Meeting/Pack-up'},
         { timestamp: '19:00:00', title: 'Family Night'},
-        { timestamp: '23:59:59', title: 'Tomorrow'},
     ];
 
     function convertTimestamp(ts) {
@@ -166,58 +164,52 @@
 
     function updateData() {
         date = new Date()
-        let time = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
-        // make time a propper timestamp
-        if (date.getHours() < 10) {
-            time = '0' + time
-        }
-        if (date.getMinutes() < 10) {
-            time = time.slice(0, 3) + '0' + time.slice(3)
-        }
-        if (date.getSeconds() < 10) {
-            time = time.slice(0, 6) + '0' + time.slice(6)
-        }
+        const pad = num => String(num).padStart(2, '0')
+        let time = `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`
         
-        // currentTime.textContent = time;
+        let currentEvent = null;
+        let nextEvent = null;
+        let prevEvent = null;
 
-        // compare time to events
-        // if time is between event.timestamp and the next event.timestamp, display the event.title
-        for (let i = 0; i < events.length; i++) {
-            if (time >= events[i].timestamp && time < events[i + 1].timestamp) {
-                // if i+1 goes over limit, reset to 0
-                currentEl.textContent = events[i].title;
-                if (i + 1 >= events.length) {
-                    i = 0;
+        if (time < events[0].timestamp) {
+            currentEvent = { title: "Day hasn't started", timestamp: time};
+            nextEvent = events[0]
+            prevEvent = { title: "Yesterday" }
+        } else if (time >= events[events.length - 1].timestamp) {
+            currentEvent = events[events.length - 1];
+            nextEvent = { title: "Tomorrow", timestamp: '23:59:59' };
+            prevEvent = events[events.length - 2]
+        } else {
+            for (let i = 0; i < events.length - 1; i++) {
+                if (time >= events[i].timestamp && time < events[i + 1].timestamp) {
+                    currentEvent = events[i];
+                    nextEvent = events[i + 1];
+                    prevEvent = i > 0 ? events[i - 1] : { title: "Yesterday "};
+                    break;
                 }
-                nextEl.textContent = "Next: " + events[i+1].title;
-                if (i - 1 < 0) {
-                    i = events.length;
-                }
-                prevEl.textContent = "Previous: " + events[i-1].title;
-
-                elapEl.textContent = timeSince(events[i].timestamp)
-                downEl.textContent = timeTill(events[i+1].timestamp)
-                
-                //document.querySelector('.display-1').textContent = events[i].title
-                //document.querySelector('.display-2').textContent = events[i + 1].title
-                if (events[i].title.includes("Group Time")) {
-                    activitySessions.classList.remove("hidden")
-
-                    redGroup.textContent = "Red: " + events[i].red;
-                    blueGroup.textContent = "Blue: " + events[i].blue;
-                    greenGroup.textContent = "Green: " + events[i].green;
-                    yellowGroup.textContent = "Yellow: " + events[i].yellow;
-                    purpleGroup.textContent = "Purple: " + events[i].purple;
-                    magentaGroup.textContent = "Magenta: " + events[i].magenta;
-                } else {
-                    activitySessions.classList.add("hidden");
-                }
-
-                break
             }
         }
 
-        //console.log(time)
+        currentEl.textContent = currentEvent.title;
+        nextEl.textContent = "Next: " + nextEvent.title;
+        prevEl.textContent = "Previous: " + prevEvent.title;
+
+        elapEl.textContent = timeSince(currentEvent.timestamp)
+        downEl.textContent = timeTill(nextEvent.timestamp)
+
+                
+        if (currentEvent.title.includes("Group Time")) {
+            activitySessions.classList.remove("hidden")
+
+            redGroup.textContent = "Red: " + currentEvent.red;
+            blueGroup.textContent = "Blue: " + currentEvent.blue;
+            greenGroup.textContent = "Green: " + currentEvent.green;
+            yellowGroup.textContent = "Yellow: " + currentEvent.yellow;
+            purpleGroup.textContent = "Purple: " + currentEvent.purple;
+            magentaGroup.textContent = "Magenta: " + currentEvent.magenta;
+        } else {
+            activitySessions.classList.add("hidden");
+        }
     }
 
     // run updateData every second
